@@ -8,7 +8,7 @@ async function getdata() {
     return;
   }
 
-  let url = `http://www.omdbapi.com/?s=${encodeURIComponent(name)}&apikey=3566431e`;
+  let url = `https://www.omdbapi.com/?s=${encodeURIComponent(name)}&apikey=3566431e`;
 
   try {
     let res = await fetch(url);
@@ -43,7 +43,7 @@ async function getdata() {
 
 async function loadDefaultMovies() {
   let container = document.querySelector(".container");
-  let url = `http://www.omdbapi.com/?s=avengers&apikey=3566431e`;
+  let url = `https://www.omdbapi.com/?s=avengers&apikey=3566431e`;
 
   try {
     let res = await fetch(url);
@@ -77,4 +77,5 @@ document.querySelector(".btn").addEventListener("click", getdata);
 window.addEventListener("load", loadDefaultMovies);
 document.querySelector(".input").addEventListener("keydown",(e)=>{
   if (e.key === "Enter") getdata()
+
 });
