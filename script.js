@@ -1,5 +1,12 @@
 console.log("chalo fir se suru kare");
 
+function getPoster(poster) {
+  if (poster === "N/A") {
+    return "https://via.placeholder.com/300x450?text=No+Image";
+  }
+  return poster;
+}
+
 async function getdata() {
   let name = document.querySelector(".input").value.trim();
 
@@ -20,24 +27,20 @@ async function getdata() {
       return;
     }
 
-    let movies = data.Search;
     container.innerHTML = "";
-
-    movies.forEach(movie => {
-      let card = `
+    data.Search.forEach(movie => {
+      container.innerHTML += `
         <div class="card">
-          <img src="${movie.Poster}" alt="">
+          <img src="${getPoster(movie.Poster)}">
           <div class="content">
             <h2>${movie.Title}</h2>
-            <p class="year">Year: ${movie.Year}</p>
-            <p class="rating">⭐ N/A</p>
+            <p class="year">${movie.Year}</p>
           </div>
         </div>
       `;
-      container.innerHTML += card;
     });
-  } catch (err) {
-    alert("Kuch galat ho gaya dost, thodi der baad try karo.");
+  } catch {
+    alert("Kuch galat ho gaya");
   }
 }
 
@@ -49,33 +52,25 @@ async function loadDefaultMovies() {
     let res = await fetch(url);
     let data = await res.json();
 
-    if (data.Response === "False") {
-      container.innerHTML = `<p>Movies load nahi ho paayi</p>`;
-      return;
-    }
+    if (data.Response === "False") return;
 
-    let movies = data.Search.slice(0, 10);
     container.innerHTML = "";
-
-    movies.forEach(movie => {
-      let card = `
+    data.Search.slice(0, 10).forEach(movie => {
+      container.innerHTML += `
         <div class="card">
-          <img src="${movie.Poster}" alt="">
+          <img src="${getPoster(movie.Poster)}">
           <div class="content">
             <h2>${movie.Title}</h2>
-            <p class="year">Year: ${movie.Year}</p>
-            <p class="rating">⭐ N/A</p>
+            <p class="year">${movie.Year}</p>
           </div>
         </div>
       `;
-      container.innerHTML += card;
     });
-  } catch (err) {}
+  } catch {}
 }
 
 document.querySelector(".btn").addEventListener("click", getdata);
 window.addEventListener("load", loadDefaultMovies);
 document.querySelector(".input").addEventListener("keydown",(e)=>{
   if (e.key === "Enter") getdata()
-
 });
